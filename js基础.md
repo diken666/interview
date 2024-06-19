@@ -117,3 +117,43 @@ let admin = {
 // 期望输出：Admin
 alert(admin.name); // 输出：Guest (?!?)
 ```
+
+8. `深拷贝`和`浅拷贝`
+```js
+// 浅拷贝
+// 1. Object.assign
+let a = { id: 1, name: 'tom' }
+let b = Object.assign(a, {})
+b.id = 9
+a.id // 9
+// 2. 展开运算符... （第一层是浅拷贝，第二层是深拷贝）
+let b = {...a}
+b.id = 9
+a.id // 9
+// 深拷贝
+// 1. JSON.parse 和 JSON.stringify (缺点：不能拷贝RegExp、Date、取不到值为undefined的key、NaN -> null、symbal会丢失)
+```
+9. 关于`this`运用，写出下列输出
+```js
+let name = 222
+let a = {
+	name: 111,
+	say: function() {
+		console.log(this.name)
+	}
+}
+
+let fun = a.say
+fun()  // a.say.bind(window)
+a.say()
+
+let b = {
+	name: 333,
+	say: function(fn) {
+		fn()
+	}
+}
+b.say(a.say)
+b.say = a.say
+b.say()
+```
