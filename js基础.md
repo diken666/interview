@@ -92,3 +92,28 @@ function debounce(fn, delay) {
 > prototype 属性指向一个原型对象时，在默认情况下，这个原型对象将会获得一个 constructor 属性，这个属性是一个指针，指向 prototype 所在的函数对象
 > https://github.com/CavsZhouyou/Front-End-Interview-Notebook/blob/master/JavaScript/JavaScript.md#1-%E4%BB%8B%E7%BB%8D-js-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B
 > http://cavszhouyou.top/JavaScript%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E4%B9%8B%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE.html
+
+7. `Proxy`代理时为什么要使用`Reflect`？
+```js
+let user = {
+  _name: "Guest",
+  get name() {
+    return this._name;
+  }
+};
+let userProxy = new Proxy(user, {
+  get(target, prop, receiver) {
+    return target[prop]; // (*) target = user
+  },
+  get(target, prop, receiver) {
+  	return Reflect.get(...arguments)
+  }
+});
+let admin = {
+  __proto__: userProxy,
+  _name: "Admin"
+};
+
+// 期望输出：Admin
+alert(admin.name); // 输出：Guest (?!?)
+```
