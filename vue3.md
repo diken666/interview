@@ -19,3 +19,16 @@
 > ```
 4. `props`和`data`哪个优先级高？
 > 优先级 props -> methods -> data -> computed -> watch
+>
+5. 如何新建vue3项目并且支持tsx
+> yarn create vite
+> yarn add @vitejs/plugin-vue-jsx
+> vite.config.ts 中引入 `@vitejs/plugin-vue-jsx` 并在`plugin`属性中使用
+> tsconfig.json新增`"jsxImportSource": "vue"`
+> `cmd + shift + p`选择`restart ts server`
+6. vue的v-on如何绑定多事件
+```vue
+<div v-on="{click: func1, mousemove: func2}"></div>
+<div @click="func1(),func2()}"></div>
+```
+

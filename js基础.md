@@ -157,3 +157,53 @@ b.say(a.say)
 b.say = a.say
 b.say()
 ```
+10. `深拷贝`和`浅拷贝`
+```js
+const data = {
+  a: "123",
+  b: 123,
+  c: true,
+  d: [43, 2],
+  e: undefined,
+  f: null,
+  g: function () { console.log("g"); },
+  h: new Set([3, 2, null]),
+  i: Symbol("fsd"),
+  k: new Map([["name", "张三"], ["title", "Author"]])
+};
+
+// 浅拷贝
+function shallowClone(obj) {
+	return {...obj}
+}
+// 深拷贝
+function deepClone(obj) {
+	// 处理常规类型
+	if (typeof obj !== 'object' || obj === null) {
+		return obj
+	}
+	// 处理函数 (⚠️注意：new Function构造的函数只能访问全局变量和自己的局部变量)
+	if (obj instanceof Function) {
+		return new Function('return ' + obj.toString())()
+	}
+	// 处理日期
+	if (obj instanceof Date) {
+		return new Date(obj.valueOf())
+	}
+	// 处理正则
+	if (obj instanceof RegExp) {
+		return new obj.constructor(obj)
+	}
+	// 处理对象和数组
+	if (Array.isArray(obj) || typeof obj === 'object') {
+		let targetRes = Array.isArray(obj) ? [] : {}
+		for (const key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				targetRes[key] = deepClone(obj[key])
+			}
+		}
+		return targetRes
+	}
+}
+```
+11. `Promise`的三种状态`pending`、`fulfiled`、`rejected`
