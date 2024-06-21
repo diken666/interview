@@ -207,3 +207,22 @@ function deepClone(obj) {
 }
 ```
 11. `Promise`的三种状态`pending`、`fulfiled`、`rejected`
+12. 图片懒加载的实现方式
+```js
+// 1. 使用loading=“lazy”
+// 2. 使用IntersectionObserver
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach( (entry) => {
+      console.log(entry.intersectionRatio)
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target)
+      }
+    });
+  }, {
+    // 如果构造函数未传入 root 或其值为null，则默认使用顶级文档的视口
+    root: null,
+    // 一个包含阈值的列表，按升序排列
+    threshold: [0.25, 0.5, 0.75, 1]
+  })
+  observer.observe(document.querySelector('#target'))
+```
