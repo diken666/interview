@@ -157,3 +157,72 @@ b.say(a.say)
 b.say = a.say
 b.say()
 ```
+10. `深拷贝`和`浅拷贝`
+```js
+const data = {
+  a: "123",
+  b: 123,
+  c: true,
+  d: [43, 2],
+  e: undefined,
+  f: null,
+  g: function () { console.log("g"); },
+  h: new Set([3, 2, null]),
+  i: Symbol("fsd"),
+  k: new Map([["name", "张三"], ["title", "Author"]])
+};
+
+// 浅拷贝
+function shallowClone(obj) {
+	return {...obj}
+}
+// 深拷贝
+function deepClone(obj) {
+	// 处理常规类型
+	if (typeof obj !== 'object' || obj === null) {
+		return obj
+	}
+	// 处理函数 (⚠️注意：new Function构造的函数只能访问全局变量和自己的局部变量)
+	if (obj instanceof Function) {
+		return new Function('return ' + obj.toString())()
+	}
+	// 处理日期
+	if (obj instanceof Date) {
+		return new Date(obj.valueOf())
+	}
+	// 处理正则
+	if (obj instanceof RegExp) {
+		return new obj.constructor(obj)
+	}
+	// 处理对象和数组
+	if (Array.isArray(obj) || typeof obj === 'object') {
+		let targetRes = Array.isArray(obj) ? [] : {}
+		for (const key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				targetRes[key] = deepClone(obj[key])
+			}
+		}
+		return targetRes
+	}
+}
+```
+11. `Promise`的三种状态`pending`、`fulfiled`、`rejected`
+12. 图片懒加载的实现方式
+```js
+// 1. 使用loading=“lazy”
+// 2. 使用IntersectionObserver
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach( (entry) => {
+      console.log(entry.intersectionRatio)
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target)
+      }
+    });
+  }, {
+    // 如果构造函数未传入 root 或其值为null，则默认使用顶级文档的视口
+    root: null,
+    // 一个包含阈值的列表，按升序排列
+    threshold: [0.25, 0.5, 0.75, 1]
+  })
+  observer.observe(document.querySelector('#target'))
+```
