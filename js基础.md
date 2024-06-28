@@ -10,7 +10,7 @@ setTimeout(fun(1), 1000)
 ```
 2. 手写call
 ```js
-let person = {
+	let person = {
     getName: function() {
       return this.name
     },
@@ -187,7 +187,7 @@ function deepClone(obj) {
 		return new Function('return ' + obj.toString())()
 	}
 	// 处理日期
-	if (obj instanceof Date) {
+	if (obj instanceof  ) {
 		return new Date(obj.valueOf())
 	}
 	// 处理正则
@@ -226,3 +226,4 @@ const observer = new IntersectionObserver((entries) => {
   })
   observer.observe(document.querySelector('#target'))
 ```
+13. ES6新增了`bigInt`、`Symbol`，两种数据结构，如今有 number、string、boolean、undefined、null、object共八种类型
